@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.etoak.mapper.UserMapper">
+    <insert id="add" parameterType="User">
+        insert into EpidemicPreventionSysAN(
+            name,
+            identity,
+            temperature,
+            phone,
+            state,
+            inflow,
+            fromm,
+            address,
+            returnDate
+        )value(
+            #{name},
+            #{identity},
+            #{temperature},
+            #{phone},
+            #{state},
+            #{inflow},
+            #{fromm},
+            #{address},
+            #{returnDate}
+        )
+    </insert>
+    <insert id="add2" parameterType="User">
+        insert into EpidemicPreventionSysAN_error(
+            name,
+            ideatity,
+            temperature,
+            phone,
+            state,
+            inflow,
+            fromm,
+            address,
+            returnDate
+        )value(
+            #{name},
+            #{ideatity},
+            #{temperature},
+            #{phone},
+            #{state},
+            #{inflow},
+            #{fromm},
+            #{address},
+            #{returnDate}
+        )
+    </insert>
+
+    <select id="list" resultType="User">
+        select * from EpidemicPreventionSysAN
+    </select>
+    <select id="queryYCallUser" resultType="User">
+        select * from EpidemicPreventionSysAN where state in("普通感冒","呼吸困难腹泻") and temperature >=37.4
+    </select>
+</mapper>

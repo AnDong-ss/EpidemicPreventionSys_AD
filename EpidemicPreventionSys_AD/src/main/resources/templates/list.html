@@ -1,0 +1,183 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport"
+              content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+        <meta http-equiv="X-UA-Compatible" content="ie=edge">
+        <title>防控数据</title>
+        <link rel="stylesheet"  th:href="@{/css/bootstrap.min.css}" >
+        <link rel="stylesheet" th:href="@{/css/bootstrap-table.css}">
+    </head>
+    <body>
+    <button class="btn btn-success col-md-offset-11" onclick="export2Excel()">导出到Excel</button>
+    <br>
+    <div class="table-responsive">
+        <table id="data">
+
+        </table>
+    </div>
+    <script th:src="@{/js/jquery/jquery.min.js}" type="text/javascript"></script>
+    <script th:src="@{/js/jquery/bootstrap.min.js}" type="text/javascript"></script>
+    <script th:src="@{/js/jquery/bootstrap-table.js}" type="text/javascript"></script>
+    <script th:src="@{/js/jquery/bootstrap-table-zh-CN.js}" type="text/javascript"></script>
+
+
+        <script th:inline="javascript">
+            window.onload = function () {
+                setInterval(function () {
+                    window.location.reload()
+                }, 3000)
+            }
+            function export2Excel() {
+                window.location.href="/user/export2Excel"
+            }
+            const path = /*[[${#request.getContextPath()}]]*/
+            $(function () {
+                queryData()
+
+            })
+            function queryData() {
+                $('#data').bootstrapTable({
+                    url: path + '/user/list',
+                    method: 'post',//表示已post方式提交请求  默认请求参数是json格式
+                    //contentType:默认application/json(默认get请求)  (post请求需要)改成application/x-www-form-urlencoded
+                    contentType: 'application/x-www-form-urlencoded',
+                    pagination: true,//是否分页
+                    sidePagination: 'server', //那一边分页  server:服务器端分页
+                    pageNumber: 1,
+                    pageSize: 5,
+                    pageList: [3, 4, 5, 10],
+                    queryParamsType: 'undefined',
+                    showRefresh:true,
+                    showToggle:true,
+                    columns: [{
+                        field: 'name',
+                        title: '姓名',
+                        cellStyle:function (value,row,index) {
+                            if(row.state=='普通感冒' && row.temperature>=37.4 ){
+                                return {css: {"background-color": "yellow"}};
+                            }
+                            if(row.state=='呼吸困难腹泻' && row.temperature>=37.4){
+                                return {css: {"background-color": "red"}};
+                            }
+                            if(row.state=='正常'){
+                                return {css: {"background-color": "writer"}};
+                            }
+                        }
+                    }, {
+                        field: 'identity',
+                        title: '身份证号',
+                        cellStyle:function (value,row,index) {
+                            if(row.state=='普通感冒' && row.temperature>=37.4 ){
+                                return {css: {"background-color": "yellow"}};
+                            }
+                            if(row.state=='呼吸困难腹泻' && row.temperature>=37.4){
+                                return {css: {"background-color": "red"}};
+                            }
+                            if(row.state=='正常'){
+                                return {css: {"background-color": "writer"}};
+                            }
+
+                        }
+                    }, {
+                        field: 'temperature',
+                        title: '体温',
+                        cellStyle:function (value,row,index) {
+                            if(row.state=='普通感冒' && value>=37.4 ){
+                                return {css: {"background-color": "yellow"}};
+                            }
+                            if(row.state=='呼吸困难腹泻' && value>=37.4){
+                                return {css: {"background-color": "red"}};
+                            }
+                            if(row.state=='正常'){
+                                return {css: {"background-color": "writer"}};
+                            }
+                        }
+                    }, {
+                        field: 'phone',
+                        title: '手机号',
+                        cellStyle:function (value,row,index) {
+                            if(row.state=='普通感冒' && row.temperature>=37.4 ){
+                                return {css: {"background-color": "yellow"}};
+                            }
+                            if(row.state=='呼吸困难腹泻' && row.temperature>=37.4){
+                                return {css: {"background-color": "red"}};
+                            }
+                            if(row.state=='正常'){
+                                return {css: {"background-color": "writer"}};
+                            }
+                        }
+                    }, {
+                        field: 'state',
+                        title: '身体状况',
+                        cellStyle:function (value,row,index) {
+                            if(value=='普通感冒' && row.temperature>=37.4 ){
+                                return {css: {"background-color": "yellow"}};
+                            }
+                            if(value=='呼吸困难腹泻' && row.temperature>=37.4){
+                                return {css: {"background-color": "red"}};
+                            }
+                            if(value=='正常'){
+                                return {css: {"background-color": "writer"}};
+                            }
+                        }
+                    }, {
+                        field: 'inflow',
+                        title: '是否外地流入',
+                        formatter: function (value, row, index) {
+                            if(value==1){
+                                return "是";
+                            }
+                            if(value==2){
+                                return "否";
+                            }
+                        },
+                        cellStyle:function (value,row,index) {
+                            if(row.state=='普通感冒' && row.temperature>=37.4 ){
+                                return {css: {"background-color": "yellow"}};
+                            }
+                            if(row.state=='呼吸困难腹泻' && row.temperature>=37.4){
+                                return {css: {"background-color": "red"}};
+                            }
+                            if(row.state=='正常'){
+                                return {css: {"background-color": "writer"}};
+                            }
+                        }
+                    }, {
+                        field: 'fromm',
+                        title: '流入地址',
+                        cellStyle:function (value,row,index) {
+                            if(row.state=='普通感冒' && row.temperature>=37.4 ){
+                                return {css: {"background-color": "yellow"}};
+                            }
+                            if(row.state=='呼吸困难腹泻' && row.temperature>=37.4){
+                                return {css: {"background-color": "red"}};
+                            }
+                            if(row.state=='正常'){
+                                return {css: {"background-color": "writer"}};
+                            }
+                        }
+                    }, {
+                        field: 'returnDate',
+                        title: '反济时间',
+                        /*formatter: function (value, row, index) {
+                            return new Date(value).toLocaleDateString().substring(0, 9)
+                        },*/
+                        cellStyle:function (value,row,index) {
+                            if(row.state=='普通感冒' && row.temperature>=37.4 ){
+                                return {css: {"background-color": "yellow"}};
+                            }
+                            if(row.state=='呼吸困难腹泻' && row.temperature>=37.4){
+                                return {css: {"background-color": "red"}};
+                            }
+                            if(row.state=='正常'){
+                                return {css: {"background-color": "writer"}};
+                            }
+                        }
+                    },]
+                })
+            }
+        </script>
+    </body>
+</html>
